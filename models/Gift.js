@@ -21,6 +21,7 @@ const Gift = mongoose.model("Gift", {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Event",
   },
+  descritption: String,
 });
 
 module.exports = Gift;
