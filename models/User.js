@@ -14,7 +14,6 @@ const User = mongoose.model("User", {
     unique: true,
     required: true,
   },
-  password: String,
   birthdate: Date,
   token: String,
   hash: String,
