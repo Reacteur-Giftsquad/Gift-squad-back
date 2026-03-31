@@ -18,6 +18,9 @@ app.get("/", (req, res) => {
   res.json({ message: "Gift Squad API running 🎅" });
 });
 
+const userRoutes = require("./routes/user");
+app.use(userRoutes);
+
 app.all(/.*/, (req, res) => {
   return res.status(404).json({ message: "Page not found" });
 });
