@@ -2,15 +2,20 @@ const express = require("express");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
+const userRoutes = require("./routes/user");
+
 const app = express();
 app.use(express.json());
 
-mongoose.connect(process.env.MONGODB_URI)
+mongoose
+  .connect(process.env.MONGODB_URI)
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.log(err));
 
+app.use(userRoutes);
+
 app.get("/", (req, res) => {
-  res.json({ message: "Gift Squad API running 🎅" });
+  res.json({ message: "Gift Squad API running" });
 });
 
 app.listen(process.env.PORT || 3000, () => {
