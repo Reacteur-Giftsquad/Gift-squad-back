@@ -2,7 +2,14 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
-
+const eventRoutes = require("./routes/event");
+app.use(eventRoutes);
+const giftRoutes = require("./routes/gift");
+app.use(giftRoutes);
+const invitationRoutes = require("./routes/invitation");
+app.use(invitationRoutes);
+const contributionRoutes = require("./routes/contribution");
+app.use(contributionRoutes);
 const app = express();
 app.use(express.json());
 app.use(cors());

@@ -49,6 +49,20 @@ const logUser = async (data) => {
   }
 };
 
+const getUserById = async (id) => {
+  const user = await User.findById(id).select("-hash -salt -token");
+  return user;
+};
+
+const modifyUser = async (id, data) => {
+  const user = await User.findByIdAndUpdate(id, data, { new: true }).select(
+    "-hash -salt -token",
+  );
+  return user;
+};
+
+module.exports = { createUser, logUser, getUserById, modifyUser };
+
 module.exports = {
   createUser,
   logUser,

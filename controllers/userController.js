@@ -30,6 +30,33 @@ const login = async (req, res, next) => {
   }
 };
 
+const {
+  createUser,
+  logUser,
+  getUserById,
+  modifyUser,
+} = require("../services/userService");
+
+const getUser = async (req, res, next) => {
+  try {
+    const user = await getUserById(req.params.id);
+    return res.json(user);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const modify = async (req, res, next) => {
+  try {
+    const user = await modifyUser(req.params.id, req.body);
+    return res.json(user);
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { signup, login, getUser, modify };
+
 module.exports = {
   signup,
   login,
