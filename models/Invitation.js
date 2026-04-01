@@ -14,7 +14,7 @@ const Invitation = mongoose.model("Invitation", {
     ref: "User",
   },
   status: {
-    type: string,
+    type: String,
     default: "pending",
   },
 });

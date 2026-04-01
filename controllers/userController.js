@@ -1,14 +1,19 @@
-const { createUser, logUser } = require("../services/userService");
+const {
+  createUser,
+  logUser,
+  getUserById,
+  modifyUser,
+} = require("../services/userService");
 
 const signup = async (req, res, next) => {
   try {
     const newUser = await createUser(req.body);
-
+    console.log("User successfully signed up:", req.body.email);
     return res.status(201).json(newUser);
   } catch (error) {
-    if (error.message.includes("email_1 dup key")) {
+    if (error.code === 11000) {
       return res.status(400).json({
-        message: "There is already an account associated to this email",
+        message: "Adresse email ou pseudo deja utilise",
       });
     } else {
       next(error);
@@ -20,7 +25,7 @@ const login = async (req, res, next) => {
   try {
     const result = await logUser(req.body);
 
-    return res.json(result.message);
+    return res.json(result);
   } catch (error) {
     if (error.message.includes("Unauthorized")) {
       return res.status(401).json(error.message);
@@ -29,13 +34,6 @@ const login = async (req, res, next) => {
     }
   }
 };
-
-const {
-  createUser,
-  logUser,
-  getUserById,
-  modifyUser,
-} = require("../services/userService");
 
 const getUser = async (req, res, next) => {
   try {
@@ -56,8 +54,3 @@ const modify = async (req, res, next) => {
 };
 
 module.exports = { signup, login, getUser, modify };
-
-module.exports = {
-  signup,
-  login,
-};
