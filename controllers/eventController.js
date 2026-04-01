@@ -28,7 +28,7 @@ const modify = async (req, res, next) => {
 
 const getAll = async (req, res, next) => {
   try {
-    const events = await getEvents(req.params.userId);
+    const events = await getEvents(req.query.userId);
     return res.json(events);
   } catch (error) {
     next(error);
