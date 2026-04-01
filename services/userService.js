@@ -23,6 +23,13 @@ const createUser = async (data) => {
 
   return {
     token: user.token,
+    user: {
+      _id: user._id,
+      firstname: user.firstname,
+      lastname: user.lastname,
+      pseudo: user.pseudo,
+      email: user.email,
+    },
   };
 };
 
@@ -42,8 +49,13 @@ const logUser = async (data) => {
     throw { message: "Unauthorized" };
   } else {
     return {
-      message: {
-        token: user.token,
+      token: user.token,
+      user: {
+        _id: user._id,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        pseudo: user.pseudo,
+        email: user.email,
       },
     };
   }
@@ -62,8 +74,3 @@ const modifyUser = async (id, data) => {
 };
 
 module.exports = { createUser, logUser, getUserById, modifyUser };
-
-module.exports = {
-  createUser,
-  logUser,
-};
