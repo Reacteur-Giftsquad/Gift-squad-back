@@ -1,7 +1,13 @@
 const Event = require("../models/Event");
 
 const createEvent = async (data) => {
-  const event = await Event.create(data);
+  const event = await Event.create({
+    name: data.name,
+    type: data.type,
+    date: data.date,
+    budget: data.budget,
+    members: [{ user: data.creator }],
+  });
   return event;
 };
 
