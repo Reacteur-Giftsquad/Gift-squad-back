@@ -12,7 +12,7 @@ const {
 
 router.post("/events/create", create);
 router.put("/events/modify/:id", modify);
-router.get("/events", getAll);
+router.get("/events/:userId", getAll);
 router.get("/events/:id", getOne);
 router.delete("/events/:id", remove);
 router.post("/events/draw/:id", draw);
