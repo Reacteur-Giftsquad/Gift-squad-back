@@ -1,3 +1,4 @@
+const cloudinary = require("cloudinary").v2;
 const {
   createGift,
   modifyGift,
@@ -11,9 +12,31 @@ const {
 
 const create = async (req, res, next) => {
   try {
-    const gift = await createGift(req.body);
+    console.log("Gift create - fields:", req.fields);
+    console.log("Gift create - files:", req.files ? Object.keys(req.files) : "none");
+
+    let image_url = "";
+    if (req.files?.image) {
+      console.log("Uploading image to Cloudinary:", req.files.image.path);
+      const result = await cloudinary.uploader.upload(req.files.image.path, {
+        folder: "gift-squad/gifts",
+      });
+      console.log("Cloudinary upload done:", result.secure_url);
+      image_url = result.secure_url;
+    }
+
+    const gift = await createGift({
+      name: req.fields.name,
+      price: Number(req.fields.price),
+      link: req.fields.link || "",
+      image_url,
+      event: req.fields.event,
+      description: req.fields.description || "",
+    });
+    console.log("Gift created:", gift._id);
     return res.status(201).json(gift);
   } catch (error) {
+    console.log("Gift create error:", error.message || error);
     next(error);
   }
 };

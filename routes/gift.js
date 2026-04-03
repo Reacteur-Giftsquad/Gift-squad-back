@@ -1,4 +1,5 @@
 const express = require("express");
+const formidable = require("express-formidable");
 const router = express.Router();
 const {
   create,
@@ -11,7 +12,7 @@ const {
   getByEvent,
 } = require("../controllers/giftController");
 
-router.post("/gift/create", create);
+router.post("/gift/create", formidable(), create);
 router.put("/gift/modify/:id", modify);
 router.get("/gift/:id", getOne);
 router.get("/gift/", getAll);
