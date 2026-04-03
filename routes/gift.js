@@ -13,7 +13,7 @@ const {
 } = require("../controllers/giftController");
 
 router.post("/gift/create", formidable(), create);
-router.put("/gift/modify/:id", modify);
+router.put("/gift/modify/:id", formidable(), modify);
 router.get("/gift/:id", getOne);
 router.get("/gift/", getAll);
 router.delete("/gift/:id", remove);

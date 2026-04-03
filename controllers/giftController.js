@@ -9,20 +9,18 @@ const {
   unreserveGift,
   getGiftsByEvent,
 } = require("../services/giftService");
-
+const sendFiles = require("../util/sendFiles");
 const create = async (req, res, next) => {
   try {
     console.log("Gift create - fields:", req.fields);
-    console.log("Gift create - files:", req.files ? Object.keys(req.files) : "none");
+    console.log(
+      "Gift create - files:",
+      req.files ? Object.keys(req.files) : "none",
+    );
 
     let image_url = "";
     if (req.files?.image) {
-      console.log("Uploading image to Cloudinary:", req.files.image.path);
-      const result = await cloudinary.uploader.upload(req.files.image.path, {
-        folder: "gift-squad/gifts",
-      });
-      console.log("Cloudinary upload done:", result.secure_url);
-      image_url = result.secure_url;
+      image_url = await sendFiles(req.files.image);
     }
 
     const gift = await createGift({
@@ -43,7 +41,21 @@ const create = async (req, res, next) => {
 
 const modify = async (req, res, next) => {
   try {
-    const gift = await modifyGift(req.params.id, req.body);
+    const data = req.fields;
+
+    let image_url = "";
+    if (req.files?.image) {
+      image_url = await sendFiles(req.files.image);
+    }
+
+    const giftData = {
+      name: data.name,
+      price: Number(data.price),
+      link: data.link || "",
+      image_url,
+      description: data.description || "",
+    };
+    const gift = await modifyGift(req.params.id, giftData);
     return res.json(gift);
   } catch (error) {
     next(error);
