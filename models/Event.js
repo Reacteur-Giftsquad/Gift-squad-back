@@ -6,6 +6,10 @@ const Event = mongoose.model("Event", {
   date: Date,
   budget: Number,
   status: String,
+  creator: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
   members: [
     {
       user: {

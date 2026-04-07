@@ -6,6 +6,7 @@ const createEvent = async (data) => {
     type: data.type,
     date: data.date,
     budget: data.budget,
+    creator: data.creator,
     members: [{ user: data.creator }],
   });
   return event;
@@ -22,7 +23,11 @@ const getEvents = async (userId) => {
 };
 
 const getEventById = async (id) => {
-  const event = await Event.findById(id).populate("members.user");
+  const event = await Event.findById(id)
+    .populate("members.user")
+    .populate("secret_Santa_Draw.giver")
+    .populate("secret_Santa_Draw.receiver")
+    .populate("creator");
   return event;
 };
 
@@ -55,7 +60,7 @@ const drawSecretSanta = async (id) => {
     receiver:
       shuffled[i] === giver ? shuffled[(i + 1) % shuffled.length] : shuffled[i],
   }));
-
+  event.status = "drawn";
   await event.save();
   return event;
 };
