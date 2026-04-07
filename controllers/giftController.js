@@ -29,6 +29,7 @@ const create = async (req, res, next) => {
       link: req.fields.link || "",
       image_url,
       event: req.fields.event,
+      owner: req.fields.owner,
       description: req.fields.description || "",
     });
     console.log("Gift created:", gift._id);
