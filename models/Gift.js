@@ -21,6 +21,10 @@ const Gift = mongoose.model("Gift", {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Event",
   },
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
   descritption: String,
 });
 
