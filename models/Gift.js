@@ -4,7 +4,6 @@ const Gift = mongoose.model("Gift", {
   name: {
     type: String,
     required: true,
-    unique: true,
   },
   price: {
     type: Number,
