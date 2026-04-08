@@ -24,6 +24,9 @@ const sendInvitation = async (data) => {
     throw { status: 400, message: "Une invitation est déjà en attente pour cet utilisateur" };
 
   const event = await Event.findById(eventId);
+  if (event.status === "drawn")
+    throw { status: 400, message: "Le tirage a déjà été effectué, impossible d'ajouter un participant" };
+
   const alreadyMember = event.members.some(
     (m) => m.user.toString() === receiver._id.toString(),
   );
@@ -46,11 +49,13 @@ const getMyInvitations = async (userId) => {
 };
 
 const acceptInvitation = async (id) => {
-  const invitation = await Invitation.findByIdAndUpdate(
-    id,
-    { status: "accepted" },
-    { new: true },
-  );
+  const invitation = await Invitation.findById(id);
+  const event = await Event.findById(invitation.event);
+  if (event.status === "drawn")
+    throw { status: 400, message: "Le tirage a déjà été effectué, impossible de rejoindre" };
+
+  invitation.status = "accepted";
+  await invitation.save();
   await Event.findByIdAndUpdate(invitation.event, {
     $push: { members: { user: invitation.receiver } },
   });
