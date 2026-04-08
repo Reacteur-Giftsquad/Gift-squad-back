@@ -1,6 +1,7 @@
 const Invitation = require("../models/Invitation");
 const Event = require("../models/Event");
 const User = require("../models/User");
+const sendPushNotification = require("../util/sendPushNotification");
 
 const sendInvitation = async (data) => {
   const { eventId, senderEmail, receiverEmail } = data;
@@ -38,6 +39,13 @@ const sendInvitation = async (data) => {
     sender: sender._id,
     receiver: receiver._id,
   });
+
+  sendPushNotification(
+    receiver.pushToken,
+    "Nouvelle invitation !",
+    `${sender.pseudo || sender.firstname} vous invite à rejoindre "${event.name}"`,
+  );
+
   return invitation;
 };
 
