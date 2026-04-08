@@ -16,6 +16,7 @@ const User = mongoose.model("User", {
   },
   birthdate: Date,
   token: String,
+  pushToken: String,
   hash: String,
   salt: String,
 });
