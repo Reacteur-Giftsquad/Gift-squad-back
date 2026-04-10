@@ -12,12 +12,6 @@ const {
 const sendFiles = require("../util/sendFiles");
 const create = async (req, res, next) => {
   try {
-    console.log("Gift create - fields:", req.fields);
-    console.log(
-      "Gift create - files:",
-      req.files ? Object.keys(req.files) : "none",
-    );
-
     let image_url = "";
     if (req.files?.image) {
       image_url = await sendFiles(req.files.image);
@@ -32,10 +26,8 @@ const create = async (req, res, next) => {
       owner: req.fields.owner,
       description: req.fields.description || "",
     });
-    console.log("Gift created:", gift._id);
     return res.status(201).json(gift);
   } catch (error) {
-    console.log("Gift create error:", error.message || error);
     next(error);
   }
 };

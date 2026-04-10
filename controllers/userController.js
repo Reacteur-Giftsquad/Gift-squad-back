@@ -8,7 +8,6 @@ const {
 const signup = async (req, res, next) => {
   try {
     const newUser = await createUser(req.body);
-    console.log("User successfully signed up:", req.body.email);
     return res.status(201).json(newUser);
   } catch (error) {
     if (error.code === 11000) {
